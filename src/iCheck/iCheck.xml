@@ -6,6 +6,16 @@
     <icon></icon>
 
     <properties>
+        <property key="controltype" type="enumeration" defaultValue="both" required="true">
+            <caption>Control Types</caption>
+            <category>Behavior</category>
+            <description>The types of controls to apply to</description>
+            <enumerationValues>
+                <enumerationValue key="both">Checkboxes/Radio Buttons</enumerationValue>
+                <enumerationValue key="checkbox">Checkboxes</enumerationValue>
+                <enumerationValue key="radio">Radio Buttons</enumerationValue>
+            </enumerationValues>
+        </property>
         <property key="skin" type="enumeration" defaultValue="minimal" required="true">
             <caption>Skin</caption>
             <category>Appearance</category>
@@ -35,6 +45,13 @@
                 <enumerationValue key="pink">Pink</enumerationValue>
                 <enumerationValue key="purple">Purple</enumerationValue>
             </enumerationValues>
+        </property>
+        <property key="extraoptions" type="string" defaultValue="" required="false" multiline="true">
+            <caption>Extra options</caption>
+            <category>Features</category>
+            <description>
+                In general, this property should be omitted. Uses dojo/json for parsing, and requires all properties and values to bee wrapped in double quotes. For a full description of the available options, see http://fronteed.com/iCheck/.
+            </description>
         </property>
     </properties>
 </widget>

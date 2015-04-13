@@ -6,7 +6,7 @@
     ========================
 
     @file      : iCheck.js
-    @version   : 0.1
+    @version   : 0.2
     @author    : Chad Evans
     @date      : Wed, 08 Apr 2015 17:15:36 GMT
     @copyright : Mendix Technology BV
@@ -26,9 +26,13 @@ require({
     }]
 }, [
     'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text',
+    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct',
+    'dojo/_base/array', 'dojo/_base/lang', 'dojo/text', 'dojo/json',
     'jquery', 'dojo/text!iCheck/widget/template/iCheck.html'
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, $, widgetTemplate) {
+], function (declare, _WidgetBase, _TemplatedMixin,
+    dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct,
+    dojoArray, lang, text, JSON,
+    $, widgetTemplate) {
     'use strict';
 
     // Declare widget's prototype.
@@ -37,9 +41,10 @@ require({
         templateString: widgetTemplate,
 
         // Parameters configured in the Modeler.
-        mfToExecute: "",
+        controltype: "",
         skin: "",
         colorscheme: "",
+        extraoptions: "",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
@@ -108,14 +113,13 @@ require({
         _resetSubscriptions: function () {
             // Release handle on previous object, if any.
             var index, widget = this;
-            
+
             if (this._handle) {
                 this.unsubscribe(this._handle);
                 this._handle = null;
             }
-            
-            for (index = 0; index < this._handleAttrArray.length; index++)
-            {
+
+            for (index = 0; index < this._handleAttrArray.length; index++) {
                 this.unsubscribe(this._handleAttrArray[index]);
             }
             this._handleAttrArray = [];
@@ -125,7 +129,8 @@ require({
                     guid: this._contextObj.getGuid(),
                     callback: lang.hitch(this, this._updateRendering)
                 });
-                
+
+                // add subscriptions for each boolean attribute for checkboxes to function
                 this._contextObj.getAttributes().map(function (item) {
                     if (widget._contextObj.isBoolean(item)) {
                         var handle = widget.subscribe({
@@ -136,27 +141,35 @@ require({
                         widget._handleAttrArray.push(handle);
                     }
                 });
-                //                this._handleAttr = this.subscribe({
-                //                    guid: this._contextObj.getGuid(),
-                //                    attr: 'Valid',
-                //                    callback: lang.hitch(this, this._updateRendering)
-                //                });
-                //                this._handleAttr = this.subscribe({
-                //                    guid: this._contextObj.getGuid(),
-                //                    attr: 'Active',
-                //                    callback: lang.hitch(this, this._updateRendering)
-                //                });
             }
         },
 
+        _classHasColor: function (skin) {
+            return skin !== 'polaris' && skin !== 'futurico';
+        },
+
         _setup_iCheck: function () {
-            var widget = this;
-            this._collection.iCheck({
-                checkboxClass: 'icheckbox_' + this.skin + '-' + this.colorscheme,
-                radioClass: 'iradio_' + this.skin + '-' + this.colorscheme
-            }).on('ifClicked', function (event) {
-                $(event.target).trigger('click');
-            });
+            var options = {
+                    checkboxClass: 'icheckbox_' + this.skin,
+                    radioClass: 'iradio_' + this.skin,
+                    handle: ''
+                };
+            
+            if (this._classHasColor(this.skin)) {
+                options.checkboxClass = options.checkboxClass + '-' + this.colorscheme;
+                options.radioClass = options.checkboxClass + '-' + this.colorscheme;
+            }
+            if (this.controltype !== 'both') {
+                options.handle = this.controltype;
+            }
+            if (this.extraoptions !== '') {
+                $.extend(options, JSON.parse(this.extraoptions));
+            }
+
+            this._collection.iCheck(options)
+                .on('ifClicked', function (event) {
+                    $(event.target).trigger('click');
+                });
         }
     });
 });
