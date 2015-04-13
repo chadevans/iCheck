@@ -1,0 +1,8 @@
+/* iCheck plugin skins
+----------------------------------- */
+@import url("iCheck/widget/ui/minimal/_all.css");
+@import url("iCheck/widget/ui/square/_all.css");
+@import url("iCheck/widget/ui/flat/_all.css");
+@import url("iCheck/widget/ui/line/_all.css");
+@import url("iCheck/widget/ui/polaris/polaris.css");
+@import url("iCheck/widget/ui/futurico/futurico.css");

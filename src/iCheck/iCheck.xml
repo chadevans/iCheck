@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="iCheck.widget.iCheck" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>iCheck</name>
+    <description>Enables iCheck to replace checkboxes and radioboxes with a modern design.</description>
+
+    <icon></icon>
+
+    <properties>
+        <property key="skin" type="enumeration" defaultValue="minimal" required="true">
+            <caption>Skin</caption>
+            <category>Appearance</category>
+            <description>The skin to use</description>
+            <enumerationValues>
+                <enumerationValue key="minimal">Minimal</enumerationValue>
+                <enumerationValue key="square">Square</enumerationValue>
+                <enumerationValue key="flat">Flat</enumerationValue>
+                <enumerationValue key="line">Line</enumerationValue>
+                <enumerationValue key="polaris">Polaris</enumerationValue>
+                <enumerationValue key="futurico">Futurico</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="colorscheme" type="enumeration" defaultValue="black" required="true">
+            <caption>Color Scheme</caption>
+            <category>Appearance</category>
+            <description>The color scheme to use</description>
+            <enumerationValues>
+                <enumerationValue key="black">Black</enumerationValue>
+                <enumerationValue key="red">Red</enumerationValue>
+                <enumerationValue key="green">Green</enumerationValue>
+                <enumerationValue key="blue">Blue</enumerationValue>
+                <enumerationValue key="areo">Areo</enumerationValue>
+                <enumerationValue key="grey">Grey</enumerationValue>
+                <enumerationValue key="orange">Orange</enumerationValue>
+                <enumerationValue key="yellow">Yellow</enumerationValue>
+                <enumerationValue key="pink">Pink</enumerationValue>
+                <enumerationValue key="purple">Purple</enumerationValue>
+            </enumerationValues>
+        </property>
+    </properties>
+</widget>
+
